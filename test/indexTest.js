@@ -1,15 +1,16 @@
-require ( './helpers.js' );
+const { updateEmployeeWithKeyAndValue, destructivelyUpdateEmployeeWithKeyAndValue, deleteFromEmployeeByKey, destructivelyDeleteFromEmployeeByKey } = require('./helpers.js');
 
 describe('employees', function() {
+  let employee;
+
+  beforeEach(function () {
+    employee = {
+      name: 'Sam',
+      streetAddress: '123 Broadway'
+    };
+  });
+
   describe('updateEmployeeWithKeyAndValue(employee, key, value)', function () {
-    beforeEach(function () {
-      for (const key in employee) {
-        delete employee[key];
-      }
-
-      employee.name = 'Sam';
-    });
-
     it('returns an employee with the original key value pairs and the new key value pair', function () {
       expect(updateEmployeeWithKeyAndValue(employee, 'streetAddress', '11 Broadway')).to.eql({
         name: 'Sam',
@@ -17,10 +18,10 @@ describe('employees', function() {
       });
     });
 
-    it('it does not modify the original employee, but rather returns a clone with the new data', function () {
+    it('does not modify the original employee, but rather returns a clone with the new data', function () {
       updateEmployeeWithKeyAndValue(employee, 'streetAddress', '11 Broadway');
 
-      expect(employee['streetAddress']).to.equal(undefined);
+      expect(employee['streetAddress']).to.equal('123 Broadway');
     });
   });
 
@@ -68,3 +69,4 @@ describe('employees', function() {
     });
   });
 });
+
